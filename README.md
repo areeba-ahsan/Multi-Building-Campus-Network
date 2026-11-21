@@ -2,8 +2,6 @@
 
 Design, routing, network services and client-server communication for a three-building college campus.
 
-Semester project for **CL3001 Computer Networks Lab**, Department of Computer Science, FAST NUCES Faisalabad (Fall 2026).
-
 ## Overview
 
 Meridian College has three buildings: Administration, Academic and Services/Data Centre. Each building has a router (R1, R2, R3). The routers form a triangle so that an alternate path exists if one link fails, and R3 is the edge router to a simulated ISP.
@@ -16,14 +14,6 @@ The project has two modules:
 | **B: Client-server communication** | A concurrent TCP server and client, a UDP server and client with sequence numbers and timeout, and packet analysis | C (POSIX sockets), gcc, Ubuntu 24.04, Wireshark |
 
 The base network is `172.20.10.0/24`, split with VLSM into seven subnets.
-
-## Team (Group 10)
-
-| Member | Main responsibility |
-|---|---|
-| Sania Basharat | Module A: topology, VLSM, VLANs and trunks, router-on-a-stick, static routing, DHCP relay, NAT/PAT |
-| Areeba Ahsan | Module B: TCP and UDP applications; RIPv2 |
-| Ezza Bilal | OSPF; Wireshark captures and analysis |
 
 ## Repository structure
 
@@ -98,9 +88,7 @@ Captured on the loopback interface. Useful display filters: `tcp.port == 8080` a
 | `udp_timeout.pcapng` | UDP with the server ignoring every third datagram |
 | `tcp_retransmission.pcapng` | TCP with 30% packet loss: SYN and SYN,ACK retransmissions |
 
-## Report
 
-The full report (design decisions, addressing table, configuration, test results and troubleshooting) is in [`report/`](report/).
 
 ## Requirements
 
