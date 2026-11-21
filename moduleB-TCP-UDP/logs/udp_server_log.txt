@@ -1,0 +1,87 @@
+UDP server listening on port 9090... (press Ctrl+C to stop)
+
+Received from 127.0.0.1:50685 -> 1|Hello from client, datagram 1
+[OK] sequence 1 is in order
+Reply sent to 127.0.0.1:50685 -> ACK for sequence 1
+
+Received from 127.0.0.1:50685 -> 2|Hello from client, datagram 2
+[OK] sequence 2 is in order
+Reply sent to 127.0.0.1:50685 -> ACK for sequence 2
+
+Received from 127.0.0.1:50685 -> 3|Hello from client, datagram 3
+[OK] sequence 3 is in order
+Reply sent to 127.0.0.1:50685 -> ACK for sequence 3
+
+Received from 127.0.0.1:50685 -> 4|Hello from client, datagram 4
+[OK] sequence 4 is in order
+Reply sent to 127.0.0.1:50685 -> ACK for sequence 4
+
+Received from 127.0.0.1:50685 -> 5|Hello from client, datagram 5
+[OK] sequence 5 is in order
+Reply sent to 127.0.0.1:50685 -> ACK for sequence 5
+
+Received from 127.0.0.1:47182 -> 1|Hello from client, datagram 1
+[NEW SESSION] sequence numbers restarted from 1
+[OK] sequence 1 is in order
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 1
+
+Received from 127.0.0.1:47182 -> 2|Hello from client, datagram 2
+[OK] sequence 2 is in order
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 2
+
+Received from 127.0.0.1:47182 -> 3|Hello from client, datagram 3
+[OK] sequence 3 is in order
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 3
+
+Received from 127.0.0.1:47182 -> 5|Hello from client, datagram 4
+[MISSING] expected 4 but got 5 (missing: 4 to 4)
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 5
+
+Received from 127.0.0.1:47182 -> 6|Hello from client, datagram 5
+[OK] sequence 6 is in order
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 6
+
+Received from 127.0.0.1:47182 -> 7|Hello from client, datagram 6
+[OK] sequence 7 is in order
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 7
+
+Received from 127.0.0.1:47182 -> 8|Hello from client, datagram 7
+[OK] sequence 8 is in order
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 8
+
+Received from 127.0.0.1:47182 -> 10|Hello from client, datagram 8
+[MISSING] expected 9 but got 10 (missing: 9 to 9)
+Reply sent to 127.0.0.1:47182 -> ACK for sequence 10
+
+Received from 127.0.0.1:45715 -> 1|Hello from client, datagram 1
+[NEW SESSION] sequence numbers restarted from 1
+[OK] sequence 1 is in order
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 1
+
+Received from 127.0.0.1:45715 -> 2|Hello from client, datagram 2
+[OK] sequence 2 is in order
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 2
+
+Received from 127.0.0.1:45715 -> 3|Hello from client, datagram 3
+[OK] sequence 3 is in order
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 3
+
+Received from 127.0.0.1:45715 -> 3|Hello from client, datagram 3
+[REPEATED] sequence 3 was received again
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 3
+
+Received from 127.0.0.1:45715 -> 4|Hello from client, datagram 4
+[OK] sequence 4 is in order
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 4
+
+Received from 127.0.0.1:45715 -> 5|Hello from client, datagram 5
+[OK] sequence 5 is in order
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 5
+
+Received from 127.0.0.1:45715 -> 6|Hello from client, datagram 6
+[OK] sequence 6 is in order
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 6
+
+Received from 127.0.0.1:45715 -> 6|Hello from client, datagram 6
+[REPEATED] sequence 6 was received again
+Reply sent to 127.0.0.1:45715 -> ACK for sequence 6

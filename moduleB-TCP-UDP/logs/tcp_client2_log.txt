@@ -1,0 +1,8 @@
+Connected to server 127.0.0.1:8080
+Type a message and press Enter (type 'quit' to exit)
+> Server: ECHO: hello
+> Server: TIME: 2026-11-20 15:40:16
+> Server: COUNT: 9 characters, 3 words
+> Server: UPPER: MAKE ME BIG
+> Server: ERROR: unsupported command 'DANCE'. Use ECHO, TIME, COUNT or UPPER
+> Disconnected.

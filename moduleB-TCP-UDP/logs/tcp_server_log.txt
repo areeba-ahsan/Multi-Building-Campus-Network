@@ -1,0 +1,21 @@
+Server listening on port 8080... (press Ctrl+C to stop)
+[+] Client connected: 127.0.0.1:33736 (active clients: 1)
+[+] Client connected: 127.0.0.1:42190 (active clients: 2)
+[+] Client connected: 127.0.0.1:58284 (active clients: 3)
+[127.0.0.1:33736] Request: ECHO hello
+[127.0.0.1:33736] Request: TIME
+[127.0.0.1:33736] Request: COUNT I love networks
+[127.0.0.1:33736] Request: UPPER make me big
+[127.0.0.1:33736] Request: DANCE nowquit
+[127.0.0.1:42190] Request: ECHO hello
+[127.0.0.1:42190] Request: TIME
+[127.0.0.1:42190] Request: COUNT i love cn
+[127.0.0.1:42190] Request: UPPER make me big
+[127.0.0.1:42190] Request: DANCE now
+[-] Client disconnected: 127.0.0.1:42190 (active clients: 2)
+[127.0.0.1:58284] Request: ECHO hello
+[127.0.0.1:58284] Request: TIME
+[127.0.0.1:58284] Request: COUNT i love cn
+[127.0.0.1:58284] Request: UPPER make me big
+[127.0.0.1:58284] Request: DANCE now
+[-] Client disconnected: 127.0.0.1:58284 (active clients: 1)

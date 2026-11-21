@@ -1,0 +1,19 @@
+UDP client: sending 5 datagrams to 127.0.0.1:9090 (mode: normal, timeout: 2 s)
+
+Sent     -> 127.0.0.1:9090 : 1|Hello from client, datagram 1
+(client local port: 50685)
+Received <- 127.0.0.1:9090 : ACK|1|Hello from client, datagram 1
+
+Sent     -> 127.0.0.1:9090 : 2|Hello from client, datagram 2
+Received <- 127.0.0.1:9090 : ACK|2|Hello from client, datagram 2
+
+Sent     -> 127.0.0.1:9090 : 3|Hello from client, datagram 3
+Received <- 127.0.0.1:9090 : ACK|3|Hello from client, datagram 3
+
+Sent     -> 127.0.0.1:9090 : 4|Hello from client, datagram 4
+Received <- 127.0.0.1:9090 : ACK|4|Hello from client, datagram 4
+
+Sent     -> 127.0.0.1:9090 : 5|Hello from client, datagram 5
+Received <- 127.0.0.1:9090 : ACK|5|Hello from client, datagram 5
+
+Summary: 5 replies OK, 0 timeouts

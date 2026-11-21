@@ -1,0 +1,24 @@
+UDP server listening on port 9090... (press Ctrl+C to stop)
+Simulated loss ON: ignoring every 3-th datagram
+
+Received from 127.0.0.1:33375 -> 1|Hello from client, datagram 1
+[OK] sequence 1 is in order
+Reply sent to 127.0.0.1:33375 -> ACK for sequence 1
+
+Received from 127.0.0.1:33375 -> 2|Hello from client, datagram 2
+[OK] sequence 2 is in order
+Reply sent to 127.0.0.1:33375 -> ACK for sequence 2
+
+Received from 127.0.0.1:33375 -> 3|Hello from client, datagram 3
+[SIMULATED LOSS] ignoring sequence 3, no reply sent
+
+Received from 127.0.0.1:33375 -> 4|Hello from client, datagram 4
+[MISSING] expected 3 but got 4 (missing: 3 to 3)
+Reply sent to 127.0.0.1:33375 -> ACK for sequence 4
+
+Received from 127.0.0.1:33375 -> 5|Hello from client, datagram 5
+[OK] sequence 5 is in order
+Reply sent to 127.0.0.1:33375 -> ACK for sequence 5
+
+Received from 127.0.0.1:33375 -> 6|Hello from client, datagram 6
+[SIMULATED LOSS] ignoring sequence 6, no reply sent
