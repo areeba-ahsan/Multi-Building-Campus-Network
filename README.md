@@ -1,97 +1,153 @@
 # Multi-Building Campus Network
+### CL3001 — Computer Networks Lab | Semester Project | Fall 2026
 
-Design, routing, network services and client-server communication for a three-building college campus.
+**Team:** Sania · Areeba · Ezza  
+**Base network:** `172.20.10.0/24` (Group 10)  
+**Tools:** Cisco Packet Tracer 8.2.2 · Ubuntu 24.04 LTS (WSL2) · gcc 13.3.0 · Wireshark 4.6.10
 
-## Overview
+---
 
-Meridian College has three buildings: Administration, Academic and Services/Data Centre. Each building has a router (R1, R2, R3). The routers form a triangle so that an alternate path exists if one link fails, and R3 is the edge router to a simulated ISP.
+## Project Overview
 
-The project has two modules:
+Meridian College has three buildings — Administration, Academic and Services/Data Centre — each with its own campus router (R1, R2, R3). The routers form a triangle so that an alternate path is always available if one link fails. R3 is the edge router to a simulated ISP.
 
-| Module | What it covers | Tools |
+The project has two independent modules:
+
+| Module | Scope | Platform |
 |---|---|---|
-| **A: Campus network** | Topology, VLSM addressing, VLANs and trunks, inter-VLAN routing, static routing, RIPv2, OSPF, DHCP relay, NAT and PAT | Cisco Packet Tracer |
-| **B: Client-server communication** | A concurrent TCP server and client, a UDP server and client with sequence numbers and timeout, and packet analysis | C (POSIX sockets), gcc, Ubuntu 24.04, Wireshark |
+| **A — Campus Network** | Physical topology · VLSM addressing · VLANs & trunks · inter-VLAN routing · static routing · RIPv2 · OSPF (cost + failover) · DHCP relay · static NAT · PAT | Cisco Packet Tracer |
+| **B — Client-Server Communication** | Concurrent TCP server/client · UDP server/client with sequence numbers & timeout · Wireshark packet capture & analysis | Ubuntu 24.04 · C (POSIX sockets) · Wireshark |
 
-The base network is `172.20.10.0/24`, split with VLSM into seven subnets.
+---
 
-## Repository structure
+## Repository Structure
 
 ```
 Multi-Building-Campus-Network/
-├── module-a-packet-tracer/   Packet Tracer files for the campus network
-├── module-b-tcp-udp/         C source code, README and test logs
-├── wireshark/                Packet captures (.pcapng)
-└── report/                   Final project report
+│
+├── moduleB-TCP-UDP/              # Module B — C source code, logs, captures, screenshots
+│   ├── tcp_server.c              # Concurrent TCP server (pthread, one thread per client)
+│   ├── tcp_client.c              # Interactive TCP client
+│   ├── udp_server.c              # UDP server with sequence checking
+│   ├── udp_client.c              # UDP client with sequence numbers + 2 s timeout
+│   ├── logs/                     # Console output logs for all test runs
+│   ├── captures/                 # Wireshark .pcapng capture files (Ezza)
+│   ├── screenshots/              # Annotated Wireshark screenshots for the report (Ezza)
+│   └── README.md                 # Full compile/run/test/Wireshark instructions
+│
+└── README.md                     # This file
 ```
 
-## Module A: Campus network (Packet Tracer)
+> **Module A** (Packet Tracer `.pkt` files) will be added here by the team before submission.
 
-- Three buildings connected by single-mode fibre between the routers and copper inside each building.
-- VLSM addressing, largest subnet first.
-- 802.1Q trunks and router-on-a-stick inter-VLAN routing on R2.
-- Static routing, then RIPv2, then OSPF.
-- Central DHCP server in VLAN 40 with DHCP relay on the other routers.
-- Static NAT and PAT on R3, the only exit to the ISP.
+---
 
-Open the `.pkt` files in `module-a-packet-tracer/` with Cisco Packet Tracer.
+## Module A: Campus Network (Cisco Packet Tracer)
 
-## Module B: Client-server applications
+- Three buildings connected by fibre between routers; copper within each building.
+- VLSM plan from `172.20.10.0/24` — largest subnet first, no overlapping allocations.
+- VLANs 10 (Administration), 20 (Students), 30 (Faculty), 40 (Services).
+- 802.1Q trunks and router-on-a-stick for inter-VLAN routing.
+- Three routing stages saved as separate files: `Static`, `RIPv2` and `OSPF_Final`.
+- OSPF cost challenge: R1–R3 cost 30, R1–R2 cost 10, R2–R3 cost 10 → path change demonstrated.
+- Central DHCP server in VLAN 40 with `ip helper-address` relay on remote gateways.
+- Static NAT maps the application server to `203.0.113.2`; PAT lets VLANs 10/20/30 share `203.0.113.1`.
 
-Everything is in [`module-b-tcp-udp/`](module-b-tcp-udp/). It has its own README with the full details.
+---
 
-### Build
+## Module B: Client-Server Applications
+
+Full details, compile commands and test scenarios are in [`moduleB-TCP-UDP/README.md`](moduleB-TCP-UDP/README.md).
+
+### Quick Build
 
 ```bash
-cd module-b-tcp-udp
+cd moduleB-TCP-UDP
 gcc tcp_server.c -o tcp_server -pthread
 gcc tcp_client.c -o tcp_client
 gcc udp_server.c -o udp_server
 gcc udp_client.c -o udp_client
 ```
 
-### TCP (port 8080)
+### TCP — port 8080
 
-The server creates one thread per client, so several clients can be served at the same time. It supports four commands (case-insensitive): `ECHO`, `TIME`, `COUNT` and `UPPER`. Invalid requests get an `ERROR` reply and the server keeps running.
+One thread per client (pthread), so multiple clients run simultaneously. Supports four commands:
+
+| Command | Example | Reply |
+|---|---|---|
+| `ECHO` | `ECHO hello` | `ECHO: hello` |
+| `TIME` | `TIME` | `TIME: 2026-11-20 12:05:30` |
+| `COUNT` | `COUNT hello world` | `COUNT: 11 characters, 2 words` |
+| `UPPER` | `UPPER hello` | `UPPER: HELLO` |
+
+Invalid or empty input returns an `ERROR` reply; the server never crashes. Type `quit` to disconnect.
 
 ```bash
 ./tcp_server              # terminal 1
-./tcp_client              # terminals 2, 3, 4 ...
+./tcp_client              # terminals 2, 3, 4 (run three to test concurrency)
 ```
 
-Example:
+### UDP — port 9090
 
-```
-> UPPER make me big
-Server: UPPER: MAKE ME BIG
-> COUNT I love networks
-Server: COUNT: 15 characters, 3 words
-```
-
-### UDP (port 9090)
-
-Each datagram is `SEQ|text` and the server replies `ACK|SEQ|text`. The server reports `[OK]`, `[MISSING]`, `[REPEATED]` and `[OUT OF ORDER]` sequences. The client waits 2 seconds for each reply and prints a `TIMEOUT` message if none arrives.
+Datagram format: `SEQ|text` → reply: `ACK|SEQ|text`. Server detects missing, repeated and out-of-order sequences. Client times out after 2 seconds with a `TIMEOUT` message.
 
 ```bash
-./udp_server [N]                        # N = ignore every N-th datagram (simulated loss)
-./udp_client [server_ip] [count] [mode] # mode: normal, skip, dup
+./udp_server [N]                        # ignore every N-th datagram (simulate loss)
+./udp_client [server_ip] [count] [mode] # mode: normal | skip | dup
 ```
 
-## Wireshark captures
+---
 
-Captured on the loopback interface. Useful display filters: `tcp.port == 8080` and `udp.port == 9090`.
+## Wireshark Analysis (Ezza)
 
-| File | Content |
+Captures taken on the loopback interface (`lo`) with tshark on Ubuntu; analysed and annotated in Wireshark on Windows.
+
+### Capture files (`moduleB-TCP-UDP/captures/`)
+
+| File | Display filter | What it shows |
+|---|---|---|
+| `tcp_capture.pcapng` | `tcp.port == 8080` | 3-way handshake · ECHO/TIME/COUNT/UPPER exchange · FIN termination (22 packets) |
+| `udp_capture.pcapng` | `udp.port == 9090` | 5 datagrams (SEQ 1–5) and their ACK replies (10 packets) |
+| `udp_timeout.pcapng` | `udp.port == 9090` | Server ignoring every 3rd datagram → client TIMEOUT messages |
+| `tcp_retransmission.pcapng` | `tcp.analysis.retransmission` | SYN and SYN,ACK retransmitted under 30% simulated packet loss |
+
+### Annotated screenshots (`moduleB-TCP-UDP/screenshots/`)
+
+| File | Annotated content |
 |---|---|
-| `tcp_capture.pcapng` | TCP handshake, commands and connection termination |
-| `udp_capture.pcapng` | UDP datagrams and their ACK replies |
-| `udp_timeout.pcapng` | UDP with the server ignoring every third datagram |
-| `tcp_retransmission.pcapng` | TCP with 30% packet loss: SYN and SYN,ACK retransmissions |
+| `screenshot_1a_syn_annotated.png` | First SYN: source/dest ports, relative & raw sequence number, SYN flag |
+| `screenshot_1b_tcp_annotated.png` | Full TCP session: handshake → data → FIN teardown |
+| `screenshot_2_udp_normal_annotated.png` | UDP normal: 5 request/reply pairs, ports and datagram sizes |
+| `screenshot_3_udp_timeout_annotated.png` | UDP timeout: missing reply + 2 s TIMEOUT message |
+| `screenshot_4_tcp_retransmission_annotated.png` | TCP retransmission: retransmitted SYN/SYN,ACK under packet loss |
 
+### TCP vs UDP — Key Differences
 
+| Feature | TCP | UDP |
+|---|---|---|
+| Connection setup | 3-way handshake (SYN → SYN,ACK → ACK) | None — connectionless |
+| Delivery guarantee | Yes — retransmits lost segments automatically | No — best-effort only |
+| Ordering | Guaranteed | May arrive out of order |
+| Timeout/recovery | Handled by OS TCP stack | Must be coded in the application |
+| Overhead | Higher (headers, ACKs, state) | Lower (minimal 8-byte header) |
+
+---
 
 ## Requirements
 
-- Cisco Packet Tracer (for Module A)
-- Ubuntu 22.04 or 24.04 with `gcc` (for Module B)
-- Wireshark (to open the captures)
+| Tool | Version | Purpose |
+|---|---|---|
+| Cisco Packet Tracer | 8.2.2 or later | Module A simulation |
+| Ubuntu | 22.04 or 24.04 LTS | Module B — compile and run |
+| gcc | any recent | Compile C source files |
+| Wireshark / tshark | any recent | Open `.pcapng` captures |
+
+---
+
+## Team Contributions
+
+| Member | Contribution |
+|---|---|
+| Areeba | Module B — TCP & UDP source code, test logs, initial repo setup |
+| Ezza | Module B — Wireshark captures, annotated screenshots, Wireshark analysis & README |
+| Sania | Module A — Packet Tracer topology, routing, DHCP/NAT/PAT configuration |
